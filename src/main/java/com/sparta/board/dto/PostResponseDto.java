@@ -1,6 +1,7 @@
 package com.sparta.board.dto;
 
 import com.sparta.board.entity.Board;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 

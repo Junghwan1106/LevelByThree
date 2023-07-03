@@ -17,27 +17,27 @@ public class BoardController {
     public BoardController(BoardService boardService){
         this.boardService = boardService;
     }
-    @PostMapping("/post") // 게시글 작성
+    @PostMapping("/board") // 게시글 작성
     public PostResponseDto createPost(@RequestBody PostRequestDto requestDto){
         return boardService.createPost(requestDto);
     }
 
-    @GetMapping("/posts") //전체 게시글 조회
+    @GetMapping("/board") //전체 게시글 조회
     public List<PostResponseDto> getPosts(){
         return boardService.getPosts();
     }
 
-    @GetMapping("/post/{id}") // 선택 게시글 조회
+    @GetMapping("/board/{id}") // 선택 게시글 조회
     public PostResponseDto getPost(@PathVariable Long id){
         return boardService.getPost(id);
     }
 
-    @PutMapping("/post/{id}") // 게시글 수정
+    @PutMapping("/board/{id}") // 게시글 수정
     public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
         return boardService.updatePost(id, requestDto);
     }
 
-    @DeleteMapping("/post/{id}") //게시글 삭제
+    @DeleteMapping("/board/{id}") //게시글 삭제
     public DeleteDto deletePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
         return boardService.deletePost(id, requestDto);
     }
