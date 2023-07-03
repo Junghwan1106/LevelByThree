@@ -26,10 +26,8 @@ public class UserController {
 
 
 //    @PostMapping("/user/login")
-//    public String login() {
-//        return "login";
-//    }
-//
+//    public String login() {};
+
 
     @PostMapping("/user/signup")
     public SignupResponseDto signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {

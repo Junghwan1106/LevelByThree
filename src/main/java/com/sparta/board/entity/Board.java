@@ -37,9 +37,4 @@ public class Board extends Timestamped{
         this.contents = requestDto.getContents();
     }
 
-//    public void checkPassword(String password) {
-//        if (!password.equals(this.getPassword())) {
-//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//        }
-//    }
 }
