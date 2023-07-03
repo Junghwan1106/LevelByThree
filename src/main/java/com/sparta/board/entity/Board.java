@@ -4,10 +4,6 @@ import com.sparta.board.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,12 +22,6 @@ public class Board extends Timestamped{
     @Column(name = "contents", nullable = false, length = 500)
     private String contents;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
 
     public Board(PostRequestDto requestDto) {
         this.password = requestDto.getPassword();

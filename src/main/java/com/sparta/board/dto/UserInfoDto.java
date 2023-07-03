@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class DeleteDto {
-    private String msg;
+public class UserInfoDto {
+    String username;
+    boolean isAdmin;
 }

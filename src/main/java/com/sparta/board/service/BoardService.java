@@ -68,4 +68,10 @@ public class BoardService {
                 new IllegalArgumentException("선택한 게시글은 존재하지 않습니다."));
     }
 
+//    private Board checkPassword(PostRequestDto requestDto){
+//        if (requestDto.getPassword().equals(board.getPassword())) {
+//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+//        }
+//    }
+
 }
