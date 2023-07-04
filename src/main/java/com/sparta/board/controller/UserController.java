@@ -1,11 +1,12 @@
 package com.sparta.board.controller;
 
+import com.sparta.board.dto.LoginRequestDto;
 import com.sparta.board.dto.SignupRequestDto;
 import com.sparta.board.dto.SignupResponseDto;
 import com.sparta.board.dto.UserInfoDto;
 import com.sparta.board.entity.UserRoleEnum;
-import com.sparta.board.security.UserDetailsImpl;
 import com.sparta.board.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +26,11 @@ public class UserController {
     private final UserService userService;
 
 
-//    @PostMapping("/user/login")
-//    public String login() {};
+    @PostMapping("/user/login")
+    public SignupResponseDto login(@RequestBody LoginRequestDto requestDto, HttpServletResponse JwtResponse) {
+        userService.login(requestDto,JwtResponse);
+        return new SignupResponseDto("로그인 성공", 200);
+    }
 
 
     @PostMapping("/user/signup")
@@ -44,13 +48,4 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user-info")
-    @ResponseBody
-    public UserInfoDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String username = userDetails.getUser().getUsername();
-        UserRoleEnum role = userDetails.getUser().getRole();
-        boolean isAdmin = (role == UserRoleEnum.ADMIN);
-
-        return new UserInfoDto(username, isAdmin);
-    }
 }
