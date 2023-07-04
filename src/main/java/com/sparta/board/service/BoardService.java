@@ -10,6 +10,7 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class BoardService {
         Board board = findPost(id);
         validateTokenAndUser(requestDto,req);
         boardRepository.delete(board);
-        return new DeleteDto("삭제 완료");
+        return new DeleteDto("삭제 완료", HttpStatus.OK.value());
     }
 
     private Board findPost(Long id){

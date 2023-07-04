@@ -7,4 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class DeleteDto {
     private String msg;
+    private int status;
 }
