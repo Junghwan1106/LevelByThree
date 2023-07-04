@@ -1,7 +1,6 @@
 package com.sparta.board.service;
 
 import com.sparta.board.dto.DeleteDto;
-import com.sparta.board.dto.LoginRequestDto;
 import com.sparta.board.dto.PostRequestDto;
 import com.sparta.board.dto.PostResponseDto;
 import com.sparta.board.entity.Board;
