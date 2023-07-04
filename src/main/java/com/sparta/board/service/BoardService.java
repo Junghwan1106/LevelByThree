@@ -47,26 +47,34 @@ public class BoardService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long id, HttpServletRequest req) {
+    public PostResponseDto updatePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
         Board board = findPost(id);
-
+        validateTokenAndUser(requestDto,req);
+        board.update(requestDto);
         return new PostResponseDto(board);
     }
 
-//    public DeleteDto deletePost(Long id, HttpServletRequest req) {
-//        Board board = findPost(id);
-//        String msg;
-//        if(requestDto.getPassword().equals(board.getPassword())){
-//            boardRepository.delete(board);
-//            msg = "삭제 완료";
-//        }else{
-//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//        }
-//        return new DeleteDto(msg);
-//    }
+    public DeleteDto deletePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
+        Board board = findPost(id);
+        validateTokenAndUser(requestDto,req);
+        boardRepository.delete(board);
+        return new DeleteDto("삭제 완료");
+    }
 
     private Board findPost(Long id){
         return boardRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("선택한 게시글은 존재하지 않습니다."));
+    }
+
+    private void validateTokenAndUser(PostRequestDto requestDto, HttpServletRequest req){
+        String token = jwtUtil.getJwtFromHeader(req);
+        if(!jwtUtil.validateToken(token)){
+            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
+        }
+        Claims claims = jwtUtil.getUserInfoFromToken(token);
+        String username = claims.getSubject();
+        if(!username.equals(requestDto.getUsername())){
+            throw new IllegalArgumentException("사용자명이 일치하지 않습니다.");
+        }
     }
 }

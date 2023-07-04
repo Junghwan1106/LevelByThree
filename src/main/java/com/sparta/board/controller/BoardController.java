@@ -6,22 +6,20 @@ import com.sparta.board.dto.PostRequestDto;
 import com.sparta.board.dto.PostResponseDto;
 import com.sparta.board.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController //html 따로 반환하지 않기 때문에 RestController 사용
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class BoardController {
 
     private  final BoardService boardService;
 
-    public BoardController(BoardService boardService){
-        this.boardService = boardService;
-    }
     @PostMapping("/board") // 게시글 작성
-    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, LoginRequestDto loginRequestDto, HttpServletRequest req){
-
+    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, HttpServletRequest req){
         return boardService.createPost(requestDto, req);
     }
 
@@ -35,13 +33,13 @@ public class BoardController {
         return boardService.getPost(id);
     }
 
-//    @PutMapping("/board/{id}") // 게시글 수정
-//    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
-//        return boardService.updatePost(id, requestDto);
-//    }
-//
-//    @DeleteMapping("/board/{id}") //게시글 삭제
-//    public DeleteDto deletePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
-//        return boardService.deletePost(id, requestDto);
-//    }
+    @PutMapping("/board/{id}") // 게시글 수정
+    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, HttpServletRequest req){
+        return boardService.updatePost(id, requestDto, req);
+    }
+
+    @DeleteMapping("/board/{id}") //게시글 삭제
+    public DeleteDto deletePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, HttpServletRequest req){
+        return boardService.deletePost(id, requestDto, req);
+    }
 }
