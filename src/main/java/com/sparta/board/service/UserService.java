@@ -7,6 +7,7 @@ import com.sparta.board.entity.User;
 import com.sparta.board.entity.UserRoleEnum;
 import com.sparta.board.jwt.JwtUtil;
 import com.sparta.board.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +26,7 @@ public class UserService {
     // ADMIN_TOKEN
     private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
-    public void signup(SignupRequestDto requestDto) {
+    public SignResponseDto signup(SignupRequestDto requestDto, HttpServletResponse res) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
 
@@ -34,7 +35,6 @@ public class UserService {
         if (checkUsername.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
         }
-
 
         // 사용자 ROLE 확인
         UserRoleEnum role = UserRoleEnum.USER;
@@ -48,9 +48,10 @@ public class UserService {
         // 사용자 등록
         User user = new User(username, password, role);
         userRepository.save(user);
+        return new SignResponseDto("회원 가입 성공", HttpStatus.OK.value());
 
     }
-    public SignResponseDto login(LoginRequestDto requestDto) {
+    public SignResponseDto login(LoginRequestDto requestDto, HttpServletResponse res) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
 
@@ -66,7 +67,7 @@ public class UserService {
 
         // JWT 생성 및 쿠키에 저장 후 Response 객체에 추가
         String token = jwtUtil.createToken(user.getUsername(), user.getRole());
-
+        res.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
         return new SignResponseDto("로그인 성공", HttpStatus.OK.value());
     }
 

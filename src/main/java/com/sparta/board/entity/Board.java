@@ -13,8 +13,6 @@ public class Board extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "password", nullable = false)
-    private String password;
     @Column(name = "title", nullable = false)
     private String title;
     @Column(name = "username", nullable = false)
@@ -23,17 +21,14 @@ public class Board extends Timestamped{
     private String contents;
 
 
-    public Board(PostRequestDto requestDto) {
-        this.password = requestDto.getPassword();
+    public Board(PostRequestDto requestDto, String username) {
+        this.username = username;
         this.title = requestDto.getTitle();
-        this.username = requestDto.getUsername();
         this.contents = requestDto.getContents();
     }
 
     public void update(PostRequestDto requestDto){
-        this.password = requestDto.getPassword();
         this.title = requestDto.getTitle();
-        this.username = requestDto.getUsername();
         this.contents = requestDto.getContents();
     }
 

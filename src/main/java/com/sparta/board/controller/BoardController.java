@@ -1,9 +1,11 @@
 package com.sparta.board.controller;
 
 import com.sparta.board.dto.DeleteDto;
+import com.sparta.board.dto.LoginRequestDto;
 import com.sparta.board.dto.PostRequestDto;
 import com.sparta.board.dto.PostResponseDto;
 import com.sparta.board.service.BoardService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +20,9 @@ public class BoardController {
         this.boardService = boardService;
     }
     @PostMapping("/board") // 게시글 작성
-    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto){
-        return boardService.createPost(requestDto);
+    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, LoginRequestDto loginRequestDto, HttpServletRequest req){
+
+        return boardService.createPost(requestDto, req);
     }
 
     @GetMapping("/board") //전체 게시글 조회
@@ -32,13 +35,13 @@ public class BoardController {
         return boardService.getPost(id);
     }
 
-    @PutMapping("/board/{id}") // 게시글 수정
-    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
-        return boardService.updatePost(id, requestDto);
-    }
-
-    @DeleteMapping("/board/{id}") //게시글 삭제
-    public DeleteDto deletePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
-        return boardService.deletePost(id, requestDto);
-    }
+//    @PutMapping("/board/{id}") // 게시글 수정
+//    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
+//        return boardService.updatePost(id, requestDto);
+//    }
+//
+//    @DeleteMapping("/board/{id}") //게시글 삭제
+//    public DeleteDto deletePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
+//        return boardService.deletePost(id, requestDto);
+//    }
 }
