@@ -2,18 +2,20 @@ package com.sparta.board.controller;
 
 import com.sparta.board.dto.LoginRequestDto;
 import com.sparta.board.dto.SignupRequestDto;
-import com.sparta.board.dto.SignupResponseDto;
-import com.sparta.board.dto.UserInfoDto;
-import com.sparta.board.entity.UserRoleEnum;
+import com.sparta.board.dto.SignResponseDto;
 import com.sparta.board.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -27,24 +29,23 @@ public class UserController {
 
 
     @PostMapping("/user/login")
-    public SignupResponseDto login(@RequestBody LoginRequestDto requestDto, HttpServletResponse JwtResponse) {
-        userService.login(requestDto,JwtResponse);
-        return new SignupResponseDto("로그인 성공", 200);
+    public SignResponseDto login(@RequestBody LoginRequestDto requestDto) {
+        return userService.login(requestDto);
     }
 
 
     @PostMapping("/user/signup")
-    public SignupResponseDto signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
+    public SignResponseDto signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
         // Validation 예외처리
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         if(fieldErrors.size() > 0) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
             }
-            return new SignupResponseDto("회원 가입 실패", 400);
+            return new SignResponseDto("회원 가입 실패", HttpStatus.BAD_REQUEST.value());
         }else{
             userService.signup(requestDto);
-            return new SignupResponseDto("회원 가입 성공", 200);
+            return new SignResponseDto("회원 가입 성공", HttpStatus.OK.value());
         }
     }
 

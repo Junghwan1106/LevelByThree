@@ -1,13 +1,14 @@
 package com.sparta.board.service;
 
 import com.sparta.board.dto.LoginRequestDto;
+import com.sparta.board.dto.SignResponseDto;
 import com.sparta.board.dto.SignupRequestDto;
 import com.sparta.board.entity.User;
 import com.sparta.board.entity.UserRoleEnum;
 import com.sparta.board.jwt.JwtUtil;
 import com.sparta.board.repository.UserRepository;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +35,6 @@ public class UserService {
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
         }
 
-        // email 중복확인
-//        String email = requestDto.getEmail();
-//        Optional<User> checkEmail = userRepository.findByEmail(email);
-//        if (checkEmail.isPresent()) {
-//            throw new IllegalArgumentException("중복된 Email 입니다.");
-//        }
 
         // 사용자 ROLE 확인
         UserRoleEnum role = UserRoleEnum.USER;
@@ -55,7 +50,7 @@ public class UserService {
         userRepository.save(user);
 
     }
-    public void login(LoginRequestDto requestDto, HttpServletResponse res) {
+    public SignResponseDto login(LoginRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
 
@@ -71,7 +66,8 @@ public class UserService {
 
         // JWT 생성 및 쿠키에 저장 후 Response 객체에 추가
         String token = jwtUtil.createToken(user.getUsername(), user.getRole());
-        jwtUtil.addJwtToCookie(token, res);
+
+        return new SignResponseDto("로그인 성공", HttpStatus.OK.value());
     }
 
 }

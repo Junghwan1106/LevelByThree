@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 @Getter
 @AllArgsConstructor
-public class SignupResponseDto {
+public class SignResponseDto {
     private String msg;
     private int status;
 }
