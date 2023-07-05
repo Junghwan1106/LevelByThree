@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardController {
 
-    private  final BoardService boardService;
+    private final BoardService boardService;
 
     @PostMapping("/post") // 게시글 작성
     public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, HttpServletRequest req){

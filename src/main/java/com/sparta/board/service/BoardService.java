@@ -25,16 +25,16 @@ public class BoardService {
     public PostResponseDto createPost(PostRequestDto requestDto, HttpServletRequest req) {
         String token = jwtUtil.getJwtFromHeader(req);
         if(!jwtUtil.validateToken(token)){
-            return null;
+            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
         }
         Claims claims = jwtUtil.getUserInfoFromToken(token);
         String username = claims.getSubject();
-        if(username.equals(requestDto.getUsername())){
-            Board board = new Board(requestDto,username);
-            Board savePost = boardRepository.save(board);
-            return new PostResponseDto(savePost);
+        if(!username.equals(requestDto.getUsername())){
+            throw new IllegalArgumentException("사용자명이 일치하지 않습니다.");
         }
-        throw new IllegalArgumentException("사용자명이 일치하지 않습니다.");
+        Board board = new Board(requestDto,username);
+        Board savePost = boardRepository.save(board);
+        return new PostResponseDto(savePost);
     }
 
     public List<PostResponseDto> getPosts() {
