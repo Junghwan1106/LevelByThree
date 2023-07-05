@@ -1,6 +1,6 @@
 package com.sparta.board.controller;
 
-import com.sparta.board.dto.DeleteDto;
+import com.sparta.board.dto.MessageResponseDto;
 import com.sparta.board.dto.PostRequestDto;
 import com.sparta.board.dto.PostResponseDto;
 import com.sparta.board.service.BoardService;
@@ -38,7 +38,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/post/{id}") //게시글 삭제
-    public DeleteDto deletePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, HttpServletRequest req){
+    public MessageResponseDto deletePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, HttpServletRequest req){
         return boardService.deletePost(id, requestDto, req);
     }
 }

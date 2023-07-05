@@ -1,6 +1,6 @@
 package com.sparta.board.service;
 
-import com.sparta.board.dto.DeleteDto;
+import com.sparta.board.dto.MessageResponseDto;
 import com.sparta.board.dto.PostRequestDto;
 import com.sparta.board.dto.PostResponseDto;
 import com.sparta.board.entity.Board;
@@ -54,11 +54,11 @@ public class BoardService {
         return new PostResponseDto(board);
     }
 
-    public DeleteDto deletePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
+    public MessageResponseDto deletePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
         Board board = findPost(id);
         validateTokenAndUser(requestDto,req);
         boardRepository.delete(board);
-        return new DeleteDto("삭제 완료", HttpStatus.OK.value());
+        return new MessageResponseDto("삭제 완료", HttpStatus.OK.value());
     }
 
     private Board findPost(Long id){
