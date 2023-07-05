@@ -39,7 +39,6 @@ public class BoardService {
 
     public List<PostResponseDto> getPosts() {
         return boardRepository.findAllByOrderByModifiedAtDesc().stream().map(PostResponseDto::new).toList();
-
     }
 
     public PostResponseDto getPost(Long id) {
