@@ -17,18 +17,18 @@ public class Board extends Timestamped{
     private String title;
     @Column(name = "username", nullable = false)
     private String username;
-    @Column(name = "contents", nullable = false, length = 500)
-    private String contents;
+    @Column(name = "content", nullable = false, length = 500)
+    private String content;
 
 
     public Board(PostRequestDto requestDto, String username) {
         this.username = username;
         this.title = requestDto.getTitle();
-        this.contents = requestDto.getContents();
+        this.content = requestDto.getContents();
     }
 
     public void update(PostRequestDto requestDto){
         this.title = requestDto.getTitle();
-        this.contents = requestDto.getContents();
+        this.content = requestDto.getContents();
     }
 }
