@@ -24,11 +24,11 @@ public class Board extends Timestamped{
     public Board(PostRequestDto requestDto, String username) {
         this.username = username;
         this.title = requestDto.getTitle();
-        this.content = requestDto.getContents();
+        this.content = requestDto.getContent();
     }
 
     public void update(PostRequestDto requestDto){
         this.title = requestDto.getTitle();
-        this.content = requestDto.getContents();
+        this.content = requestDto.getContent();
     }
 }
