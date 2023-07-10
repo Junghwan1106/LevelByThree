@@ -1,9 +1,7 @@
 package com.sparta.board.dto;
 
-import com.sparta.board.entity.Board;
-import lombok.AllArgsConstructor;
+import com.sparta.board.entity.Post;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -16,13 +14,13 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public PostResponseDto(Board board){
-        this.id = board.getId();
-        this.title = board.getTitle();
-        this.username = board.getUsername();
-        this.content = board.getContent();
-        this.createdAt = board.getCreatedAt();
-        this.modifiedAt = board.getModifiedAt();
+    public PostResponseDto(Post post){
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.username = post.getUsername();
+        this.content = post.getContent();
+        this.createdAt = post.getCreatedAt();
+        this.modifiedAt = post.getModifiedAt();
     }
 
 }

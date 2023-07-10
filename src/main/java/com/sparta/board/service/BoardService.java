@@ -3,7 +3,7 @@ package com.sparta.board.service;
 import com.sparta.board.dto.MessageResponseDto;
 import com.sparta.board.dto.PostRequestDto;
 import com.sparta.board.dto.PostResponseDto;
-import com.sparta.board.entity.Board;
+import com.sparta.board.entity.Post;
 import com.sparta.board.jwt.JwtUtil;
 import com.sparta.board.repository.BoardRepository;
 import io.jsonwebtoken.Claims;
@@ -32,8 +32,8 @@ public class BoardService {
         if(!username.equals(requestDto.getUsername())){
             throw new IllegalArgumentException("사용자명이 일치하지 않습니다.");
         }
-        Board board = new Board(requestDto,username);
-        Board savePost = boardRepository.save(board);
+        Post post = new Post(requestDto,username);
+        Post savePost = boardRepository.save(post);
         return new PostResponseDto(savePost);
     }
 
@@ -42,26 +42,26 @@ public class BoardService {
     }
 
     public PostResponseDto getPost(Long id) {
-        Board board = findPost(id);
-        return new PostResponseDto(board);
+        Post post = findPost(id);
+        return new PostResponseDto(post);
     }
 
     @Transactional
     public PostResponseDto updatePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
-        Board board = findPost(id);
+        Post post = findPost(id);
         validateTokenAndUser(requestDto,req);
-        board.update(requestDto);
-        return new PostResponseDto(board);
+        post.update(requestDto);
+        return new PostResponseDto(post);
     }
 
     public MessageResponseDto deletePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
-        Board board = findPost(id);
+        Post post = findPost(id);
         validateTokenAndUser(requestDto,req);
-        boardRepository.delete(board);
+        boardRepository.delete(post);
         return new MessageResponseDto("삭제 완료", HttpStatus.OK.value());
     }
 
-    private Board findPost(Long id){
+    private Post findPost(Long id){
         return boardRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("선택한 게시글은 존재하지 않습니다."));
     }
