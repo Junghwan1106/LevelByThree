@@ -22,23 +22,25 @@ repositories {
 }
 
 dependencies {
-    // JPA 설정
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // MySQL
-    implementation 'mysql:mysql-connector-java:8.0.28'
     runtimeOnly 'com.mysql:mysql-connector-j'
-    // Security
+    // SpringSecurity
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // JWT
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Lombok
     compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
