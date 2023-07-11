@@ -18,5 +18,6 @@ public class SignupRequestDto {
             message = "비밀번호는 8자 이상, 15자 이하로 알파벳 대소문자, 숫자로 설정해주세요.")
     private String password;
 
-    private UserRoleEnum role; // 회원 권한 ADMIN, USER
+    private boolean admin = false;
+    private String adminToken = "";
 }
