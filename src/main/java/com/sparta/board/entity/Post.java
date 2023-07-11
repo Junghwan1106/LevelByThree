@@ -2,7 +2,7 @@ package com.sparta.board.entity;
 
 import java.util.List;
 
-import com.thesun4sky.springblog.dto.PostRequestDto;
+import com.sparta.board.dto.PostRequestDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

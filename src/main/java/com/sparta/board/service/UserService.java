@@ -1,7 +1,8 @@
 package com.sparta.board.service;
 
-import com.sparta.board.dto.LoginRequestDto;
-import com.sparta.board.dto.MessageResponseDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.sparta.board.dto.SignupRequestDto;
 import com.sparta.board.entity.User;
 import com.sparta.board.entity.UserRoleEnum;
@@ -9,65 +10,39 @@ import com.sparta.board.jwt.JwtUtil;
 import com.sparta.board.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
 
-    // ADMIN_TOKEN
-    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
-
-    public MessageResponseDto signup(SignupRequestDto requestDto) {
+    public void signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
+        UserRoleEnum role = requestDto.getRole();
 
-        // 회원 중복 확인
-        Optional<User> checkUsername = userRepository.findByUsername(username);
-        if (checkUsername.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 회원입니다.");
         }
 
-        // 사용자 ROLE 확인
-        UserRoleEnum role = UserRoleEnum.USER;
-        if (requestDto.isAdmin()) {
-            if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
-                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
-            }
-            role = UserRoleEnum.ADMIN;
-        }
-
-        // 사용자 등록
         User user = new User(username, password, role);
         userRepository.save(user);
-        return new MessageResponseDto("회원 가입 성공", HttpStatus.OK.value());
-
     }
-    public MessageResponseDto login(LoginRequestDto requestDto, HttpServletResponse res) {
+
+    public void login(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
 
-        // 사용자 확인
+        //사용자 확인 (username 이 없는 경우)
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
         );
 
-        // 비밀번호 확인
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        //비밀번호 확인 (password 가 다른 경우)
+        if(!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-
-        // JWT 생성 및 쿠키에 저장 후 Response 객체에 추가
-        String token = jwtUtil.createToken(user.getUsername(), user.getRole());
-        res.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
-        return new MessageResponseDto("로그인 성공", HttpStatus.OK.value());
     }
 }

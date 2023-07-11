@@ -2,6 +2,7 @@ package com.sparta.board.controller;
 
 import java.util.concurrent.RejectedExecutionException;
 
+import com.sparta.board.security.UserDetailsImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sparta.board.dto.ApiResponseDto;
 import com.sparta.board.dto.CommentRequestDto;
 import com.sparta.board.dto.CommentResponseDto;
-import com.thesun4sky.springblog.service.CommentService;
+import com.sparta.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

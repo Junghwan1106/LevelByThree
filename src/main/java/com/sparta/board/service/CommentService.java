@@ -1,15 +1,13 @@
-package com.thesun4sky.springblog.service;
-
+package com.sparta.board.service;
 import java.util.concurrent.RejectedExecutionException;
 
-import com.sparta.board.entity.Post;
-import com.sparta.board.service.BoardService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.board.dto.CommentRequestDto;
 import com.sparta.board.dto.CommentResponseDto;
 import com.sparta.board.entity.Comment;
+import com.sparta.board.entity.Post;
 import com.sparta.board.entity.User;
 import com.sparta.board.entity.UserRoleEnum;
 import com.sparta.board.repository.CommentRepository;
@@ -18,11 +16,11 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-    private final BoardService boardService;
+    private final PostService postService;
     private final CommentRepository commentRepository;
 
     public CommentResponseDto createComment(CommentRequestDto requestDto, User user) {
-        Post post = boardService.findPost(requestDto.getPostId());
+        Post post = postService.findPost(requestDto.getPostId());
         Comment comment = new Comment(requestDto.getBody());
         comment.setUser(user);
         comment.setPost(post);
