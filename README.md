@@ -66,7 +66,7 @@
 __[erdcloud 링크입니다.](https://www.erdcloud.com/d/dwzDi974sCp4cWA9Q)__
 
 ## API 명세서
-__[API 명세서 링크입니다.](https://www.notion.so/8541bce262c94b84ae8f67a510a210e7?v=694f7bd8842a46c498ca994ce738f53f)__
+__[API 명세서 링크입니다.](https://scandalous-uncle-516.notion.site/8541bce262c94b84ae8f67a510a210e7?v=694f7bd8842a46c498ca994ce738f53f&pvs=4)__
 
 <td><img width="1000" src="https://raw.githubusercontent.com/Junghwan1106/LevelByThree/main/LV3API%EB%AA%85%EC%84%B8%EC%84%9C.png" /></td>
 
