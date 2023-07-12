@@ -1,6 +1,7 @@
 package com.sparta.board.service;
 import java.util.concurrent.RejectedExecutionException;
 
+import com.sparta.board.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,18 +17,27 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-    private final PostService postService;
+//    private final PostService postService;
     private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
 
-    public CommentResponseDto createComment(CommentRequestDto requestDto, User user) {
-        Post post = postService.findPost(requestDto.getPostId());
-        Comment comment = new Comment(requestDto.getBody());
-        comment.setUser(user);
-        comment.setPost(post);
+    @Transactional
+    public CommentResponseDto createComment(Long id,CommentRequestDto commentRequestDto, User user) {
+//        Post post = postService.findPost(requestDto.getPostId());
+//        Comment comment = new Comment(requestDto.getBody());
+//        comment.setUser(user);
+//        comment.setPost(post);
+//
+//        var savedComment = commentRepository.save(comment);
+//
+//        return new CommentResponseDto(savedComment);
 
-        var savedComment = commentRepository.save(comment);
+        Post post = postRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("찾을 수 없는 게시글 입니다."));
 
-        return new CommentResponseDto(savedComment);
+        Comment comment = commentRepository.save(new Comment(commentRequestDto, post, user));
+
+        return new CommentResponseDto(comment);
     }
 
     public void deleteComment(Long id, User user) {

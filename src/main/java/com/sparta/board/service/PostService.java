@@ -22,11 +22,11 @@ public class PostService {
     private final PostRepository postRepository;
 
     public PostResponseDto createPost(PostRequestDto requestDto, User user) {
-        Post post = new Post(requestDto);
-        post.setUser(user);
-
-        postRepository.save(post);
-
+//        Post post = new Post(requestDto);
+//        post.setUser(user);
+//
+//        postRepository.save(post);
+        Post post = postRepository.save(new Post(requestDto,user));
         return new PostResponseDto(post);
     }
 

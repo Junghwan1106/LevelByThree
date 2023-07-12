@@ -1,5 +1,6 @@
 package com.sparta.board.entity;
 
+import com.sparta.board.dto.CommentRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +25,10 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private String body;
 
+    @Column(nullable = false)
+    private String username;
+
+
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
@@ -46,5 +51,16 @@ public class Comment extends Timestamped {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public Comment (CommentRequestDto commentRequestDto, Post post, User user){
+        this.body = commentRequestDto.getBody();
+        this.username = user.getUsername();
+        this.post = post;
+        this.user = user;
+    }
+
+    public void update(CommentRequestDto commentRequestDto){
+        this.body = commentRequestDto.getBody();
     }
 }

@@ -26,12 +26,13 @@ import lombok.RequiredArgsConstructor;
 public class CommentController {
 
     private final CommentService commentService;
+//    @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentRequestDto requestDto
+    @PostMapping("/comments/{id}")
+    public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-    @PostMapping("/comments")
-    public ResponseEntity<CommentResponseDto> createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentRequestDto requestDto) {
-        CommentResponseDto result = commentService.createComment(requestDto, userDetails.getUser());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+//        CommentResponseDto result = commentService.createComment(requestDto, userDetails.getUser());
+//        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        return  ResponseEntity.ok().body(commentService.createComment(id, commentRequestDto, userDetails.getUser()));
     }
 
     @PutMapping("/comments/{id}")

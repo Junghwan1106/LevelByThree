@@ -27,6 +27,8 @@ public class UserService {
         String password = passwordEncoder.encode(requestDto.getPassword());
 //        UserRoleEnum role = requestDto.getRole();
 
+
+
         if (userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 회원입니다.");
         }
